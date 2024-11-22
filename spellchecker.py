@@ -14,11 +14,24 @@ header.pack()
 secondary_header = Label(root, text="Type a word in the field below andd find out!")
 secondary_header.pack()
 
-input = StringVar()
-text_entry = Entry(root, textvariable=input)
+text_entry = Entry(root)
 text_entry.pack()
 
-check_btn = Button(root, text="Check!")
+def spell_check():
+    input = text_entry.get()
+    suggested_spelling = str(TextBlob(input).correct())
+    
+    result_text = ""
+    if input == suggested_spelling:
+        result_text = f"Congrats! You spell {input} correctly!"
+    else:
+        result_text = f"Could you mean {suggested_spelling} instead?"
+    result_display.config(text=result_text)
+
+check_btn = Button(root, text="Check!", command=spell_check)
 check_btn.pack()
+
+result_display = Label(root)
+result_display.pack()
 
 root.mainloop()
